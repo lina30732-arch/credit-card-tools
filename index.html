@@ -3,21 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的信用卡比較網</title>
+    <title>我的信用卡優惠比較網</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f7f6; padding: 20px; }
-        .card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 300px; }
-        h1 { color: #2c3e50; }
-        .benefit { color: #e74c3c; font-weight: bold; }
+        /* 這裡是用來美化網頁的 CSS */
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 { color: #1a73e8; }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1000px;
+        }
+        /* 信用卡卡片樣式 */
+        .card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            width: 300px;
+            height: 180px;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            position: relative;
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .bank-name { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; }
+        .card-type { font-size: 0.9em; opacity: 0.8; }
+        .benefits {
+            margin-top: 30px;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .highlight { color: #ffeb3b; font-weight: bold; }
+        .footer { margin-top: 40px; font-size: 0.8em; color: #666; }
     </style>
 </head>
 <body>
-    <h1>我的首選信用卡</h1>
-    <div class="card">
-        <h2>某某銀行鑽石卡</h2>
-        <p>國內消費：<span class="benefit">3% 回饋</span></p>
-        <p>國外消費：<span class="benefit">5% 無上限</span></p>
-        <button>查看更多細節</button>
+
+    <h1>2026 精選信用卡回饋比較</h1>
+    <p>幫你整理最划算的刷卡組合</p>
+
+    <div class="container">
+        <div class="card">
+            <div class="bank-name">星宇銀行</div>
+            <div class="card-type">寰宇世界卡</div>
+            <div class="benefits">
+                國內消費：<span class="highlight">3%</span><br>
+                海外消費：<span class="highlight">5% 無上限</span>
+            </div>
+        </div>
+
+        <div class="card" style="background: linear-gradient(135deg, #434343 0%, #000000 100%);">
+            <div class="bank-name">國泰民安銀行</div>
+            <div class="card-type">極黑無限卡</div>
+            <div class="benefits">
+                外送平台：<span class="highlight">10%</span><br>
+                指定影音：<span class="highlight">20% 回饋</span>
+            </div>
+        </div>
+
+        <div class="card" style="background: linear-gradient(135deg, #d4145a 0%, #fbb03b 100%);">
+            <div class="bank-name">樂天派銀行</div>
+            <div class="card-type">可愛動物聯名卡</div>
+            <div class="benefits">
+                網購回饋：<span class="highlight">6.6%</span><br>
+                週六加碼：<span class="highlight">最高 10%</span>
+            </div>
+        </div>
     </div>
+
+    <div class="footer">
+        * 資訊僅供參考，實際回饋請以銀行官網公告為準。
+    </div>
+
 </body>
 </html>
