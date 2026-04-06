@@ -3,89 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的信用卡優惠比較網</title>
+    <title>信用卡回饋聰明算</title>
     <style>
-        /* 這裡是用來美化網頁的 CSS */
-        body {
-            font-family: "Microsoft JhengHei", sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        h1 { color: #1a73e8; }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 1000px;
-        }
-        /* 信用卡卡片樣式 */
-        .card {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            width: 300px;
-            height: 180px;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            position: relative;
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: translateY(-5px); }
-        .bank-name { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; }
-        .card-type { font-size: 0.9em; opacity: 0.8; }
-        .benefits {
-            margin-top: 30px;
-            font-size: 1.1em;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-        }
-        .highlight { color: #ffeb3b; font-weight: bold; }
-        .footer { margin-top: 40px; font-size: 0.8em; color: #666; }
+        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f8f9fa; padding: 20px; color: #333; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #1a73e8; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        select, input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background-color: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #1557b0; }
+        #result { margin-top: 30px; padding: 20px; border-radius: 10px; display: none; }
+        .best-card { border: 2px solid #28a745; background-color: #e9f7ef; }
+        .card-name { font-size: 1.2em; font-weight: bold; color: #28a745; }
+        .amount { font-size: 1.5em; color: #d93025; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h1>2026 精選信用卡回饋比較</h1>
-    <p>幫你整理最划算的刷卡組合</p>
-
-    <div class="container">
-        <div class="card">
-            <div class="bank-name">星宇銀行</div>
-            <div class="card-type">寰宇世界卡</div>
-            <div class="benefits">
-                國內消費：<span class="highlight">3%</span><br>
-                海外消費：<span class="highlight">5% 無上限</span>
-            </div>
-        </div>
-
-        <div class="card" style="background: linear-gradient(135deg, #434343 0%, #000000 100%);">
-            <div class="bank-name">國泰民安銀行</div>
-            <div class="card-type">極黑無限卡</div>
-            <div class="benefits">
-                外送平台：<span class="highlight">10%</span><br>
-                指定影音：<span class="highlight">20% 回饋</span>
-            </div>
-        </div>
-
-        <div class="card" style="background: linear-gradient(135deg, #d4145a 0%, #fbb03b 100%);">
-            <div class="bank-name">樂天派銀行</div>
-            <div class="card-type">可愛動物聯名卡</div>
-            <div class="benefits">
-                網購回饋：<span class="highlight">6.6%</span><br>
-                週六加碼：<span class="highlight">最高 10%</span>
-            </div>
-        </div>
+<div class="container">
+    <h1>💳 刷哪張最划算？</h1>
+    
+    <div class="input-group">
+        <label>消費類別</label>
+        <select id="category">
+            <option value="general">一般國內消費</option>
+            <option value="overseas">海外消費</option>
+            <option value="food">外送/餐飲</option>
+            <option value="online">網路購物</option>
+        </select>
     </div>
 
-    <div class="footer">
-        * 資訊僅供參考，實際回饋請以銀行官網公告為準。
+    <div class="input-group">
+        <label>消費金額 (TWD)</label>
+        <input type="number" id="spendAmount" placeholder="例如：3000" min="0">
     </div>
+
+    <button onclick="calculateBestCard()">開始計算建議</button>
+
+    <div id="result" class="best-card">
+        <p>根據您的消費，建議使用：</p>
+        <div class="card-name" id="bestCardName">---</div>
+        <p>預估可獲得回饋：<span class="amount" id="rewardAmount">$0</span></p>
+        <small id="reason"></small>
+    </div>
+</div>
+
+<script>
+    // 這裡就是你的「信用卡資料庫」
+    // 你可以隨時修改這裡的數字來更新優惠
+    const cardDatabase = [
+        { name: "星宇銀行 寰宇卡", general: 0.03, overseas: 0.05, food: 0.03, online: 0.03 },
+        { name: "國泰民安 極黑卡", general: 0.01, overseas: 0.02, food: 0.10, online: 0.05 },
+        { name: "樂天派 動物卡", general: 0.01, overseas: 0.01, food: 0.01, online: 0.066 }
+    ];
+
+    function calculateBestCard() {
+        const amount = document.getElementById('spendAmount').value;
+        const category = document.getElementById('category').value;
+        
+        if (!amount || amount <= 0) {
+            alert("請輸入有效的消費金額");
+            return;
+        }
+
+        let bestCard = null;
+        let maxReward = -1;
+
+        // 邏輯判斷：跑遍資料庫找回饋最高的
+        cardDatabase.forEach(card => {
+            let reward = amount * card[category];
+            if (reward > maxReward) {
+                maxReward = reward;
+                bestCard = card;
+            }
+        });
+
+        // 顯示結果
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        document.getElementById('bestCardName').innerText = bestCard.name;
+        document.getElementById('rewardAmount').innerText = `$${Math.floor(maxReward)}`;
+        document.getElementById('reason').innerText = `(此類別回饋率為 ${bestCard[category] * 100}%)`;
+    }
+</script>
 
 </body>
 </html>
